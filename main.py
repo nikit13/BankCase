@@ -1,6 +1,6 @@
 from random import randint
 
-
+#%%%%%%%
 class CentralBank:
     banks = []
     bankruptBanks = []
