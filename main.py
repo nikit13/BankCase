@@ -1,36 +1,46 @@
 from random import randint
 
+
 class Event:
-    def __init__(self,param,cost,minv,maxv,quest_line,ans,resp_Y,resp_N,res_negative,res_positive):
-        self.param,self.cost,self.minv,self.maxv,self.quest_line,self.ans,self.resp_Y,self.resp_N,=param,cost,minv,maxv,quest_line,ans,resp_Y,resp_N,
-        self.res_negative,self.res_positive=res_negative,res_positive
-    def playeventManagableCost(self,num):
-        if input(self.quest_line)==self.ans:
-            CentralBank.banks[num].reserves-=self.cost
-            if randint(0,100)>50:
-                res=self.minv+(self.maxv-self.minv)*(randint(100)/100)
-                CentralBank.global_awareness-=res
+    def __init__(self, param, cost, minv, maxv, quest_line, ans, resp_Y, resp_N, res_negative, res_positive):
+        self.bg, self.cost, self.minv, self.maxv, self.quest_line, self.ans, self.resp_Y, self.resp_N, = param, cost, minv, maxv, quest_line, ans, resp_Y, resp_N,
+        self.res_negative, self.res_positive = res_negative, res_positive
+
+    def playeventManagableCost(self, num):
+        if input(self.quest_line) == self.ans:
+            print(self.resp_Y)
+            CentralBank.banks[num].reserves -= self.cost
+            if randint(0, 100) > 50:
+                res = self.minv + (self.maxv - self.minv) * (randint(100) / 100)
+                CentralBank.global_awareness -= res
                 print(self.res_positive.format(res))
             else:
                 print(self.res_negative)
+        else:
+            print(self.resp_N)
 
     def playeventManagableAwareness(self, num):
-        if input(self.quest_line)==self.ans:
-            CentralBank.global_awareness-=self.cost
-            if randint(0,100)>50:
-                res=self.minv+(self.maxv-self.minv)*(randint(100)/100)
-                CentralBank.banks[q]+=res
+        if input(self.quest_line) == self.ans:
+            print(self.resp_Y)
+            CentralBank.global_awareness += self.cost
+            if randint(0, 100) > 50:
+                res = self.minv + (self.maxv - self.minv) * (randint(100) / 100)
+                CentralBank.banks[q] += res
                 print(self.res_positive.format(res))
             else:
                 print(self.res_negative)
-
-    def playeventUnmanagableCost(self):
-        return
+        else:
+            print(self.resp_N)
+    def playeventUnmanagableCost(self,num):
+        CentralBank.banks[num].investments-=self.cost
+        print(self.res_positive)
     def playeventUnmanagableAwareness(self):
-        return
+        CentralBank.global_awareness+=self.cost
+        print(self.res_positive)
 
 class CentralBank:
     banks = []
+    Events = []
     bankruptBanks = []
     bankruptInvestors = []
     droppedInvestors = []
@@ -151,7 +161,7 @@ for term in range(10):
             for i, inv in enumerate(bank.investors):
                 CentralBank.banks[q].reserve -= inv.deposit * bank.rate_on_depo  # выплачиваем проценты вкладчикам
                 CentralBank.banks[q].investors[i].deposit *= (bank.rate_on_depo + 1)
-            CentralBank.banks[q].investments *= randint(5,15)/10
+            CentralBank.banks[q].investments *= randint(5, 15) / 10
             s = CentralBank.banks[q].reserve + CentralBank.banks[q].investments  # все активы банка
             CentralBank.banks[q].reserve, CentralBank.banks[q].investments = s * bank.rate_on_reserves, s * (
                     1 - bank.rate_on_reserves)  # пересчитываем капитал банка (собрали все деньги и поделили по ставке)
