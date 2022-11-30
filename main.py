@@ -112,6 +112,7 @@ class Bank:
         for i, inv in enumerate(self.investors):
             inv.gain = -100
             CentralBank.bankruptInvestors.append(self.investors[i])
+        CentralBank.global_awareness=min(100,randint(CentralBank.global_awareness,CentralBank.global_awareness1+5))
         CentralBank.bankruptBanks.append(self)
         return True
 
@@ -139,7 +140,7 @@ class Investor:
 
     def awareness_count(self, bank):
         return self.deposit / (
-                Bank.default_value_sum / Bank.default_investors_count) * CentralBank.inflation * CentralBank.global_awareness / bank.rate_on_depo
+                Bank.default_value_sum / Bank.default_investors_count) * CentralBank.inflation * ((CentralBank.global_awareness)/100) / bank.rate_on_depo
 
 
 def initWorld():
@@ -172,8 +173,10 @@ for term in range(10):
             for i, inv in enumerate(bank.investors):
                 CentralBank.banks[q].reserve -= inv.deposit * bank.rate_on_depo  # выплачиваем проценты вкладчикам
                 CentralBank.banks[q].investors[i].deposit *= (bank.rate_on_depo + 1)
+                CentralBank.banks[q].investors[i].deposit /= (CentralBank.inflation + 1)
             CentralBank.banks[q].investments *= randint(5, 15) / 10
             s = CentralBank.banks[q].reserve + CentralBank.banks[q].investments  # все активы банка
+            s /= (CentralBank.inflation + 1)
             CentralBank.banks[q].reserve, CentralBank.banks[q].investments = s * bank.rate_on_reserves, s * (
                     1 - bank.rate_on_reserves)  # пересчитываем капитал банка (собрали все деньги и поделили по ставке)
 
