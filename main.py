@@ -15,7 +15,7 @@ class Event:
                 CentralBank.global_awareness -= res
                 print(self.res_positive.format(res))
             else:
-                print(self.res_negative)
+                print(self.res_negative.format(res))
         else:
             print(self.resp_N)
 
@@ -31,12 +31,22 @@ class Event:
                 print(self.res_negative)
         else:
             print(self.resp_N)
-    def playeventUnmanagableCost(self,num):
-        CentralBank.banks[num].investments-=self.cost
-        print(self.res_positive)
-    def playeventUnmanagableAwareness(self):
-        CentralBank.global_awareness+=self.cost
-        print(self.res_positive)
+        # " в результате инвестиций было получено {0} рублей "
+
+    def playeventUnmanagableCost(self, num):
+        CentralBank.banks[num].investments -= self.cost
+        print(self.quest_line)
+        res = self.minv + (self.maxv - self.minv) * (randint(100) / 100)
+        CentralBank.global_awareness += res
+        print(self.res_positive.format(res))
+
+    def playeventUnmanagableAwareness(self, num):
+        CentralBank.global_awareness += self.cost
+        print(self.quest_line)
+        res = (self.minv + (self.maxv - self.minv) * (randint(100) / 100))
+        CentralBank.banks[num].investments += res
+        print(self.res_positive.format(res))
+
 
 class CentralBank:
     banks = []
