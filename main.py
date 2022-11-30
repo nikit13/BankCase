@@ -40,7 +40,8 @@ class Event:
 
 class CentralBank:
     banks = []
-    Events = []
+    EventsUnman = []
+    EventsMan = []
     bankruptBanks = []
     bankruptInvestors = []
     droppedInvestors = []
