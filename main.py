@@ -89,8 +89,6 @@ class Investor:
         self.deposit += depo
 
     def awareness_count(self, bank):
-        return self.deposit / (
-                Bank.default_value_sum / Bank.default_investors_count) * CentralBank.inflation * CentralBank.global_awareness / bank.rate_on_depo
 
 
 def initWorld():
